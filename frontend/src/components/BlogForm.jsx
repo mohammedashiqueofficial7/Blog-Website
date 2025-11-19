@@ -8,6 +8,7 @@ const BlogForm = ({ blog, isEdit }) => {
 
   useEffect(() => {
     if (isEdit && blog) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData({ title: blog.title, content: blog.content, author: blog.author });
     }
   }, [blog, isEdit]);

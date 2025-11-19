@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -7,11 +7,7 @@ const BlogView = () => {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchBlog();
-  }, [id]);
-
-  const fetchBlog = () => {
+  const fetchBlog = useCallback(() => {
     axios.get(`http://localhost:5000/api/blogs/${id}`).then(response => {
       setBlog(response.data);
       setLoading(false);
@@ -19,7 +15,11 @@ const BlogView = () => {
       console.error(error);
       setLoading(false);
     });
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchBlog();
+  }, [id, fetchBlog]);
 
   const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete this blog?')) {

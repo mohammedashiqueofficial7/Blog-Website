@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import BlogForm from '../components/BlogForm';
 import axios from 'axios';
 
@@ -9,13 +9,7 @@ const AddEditBlog = () => {
   const [loading, setLoading] = useState(!!id);
   const isEdit = !!id;
 
-  useEffect(() => {
-    if (isEdit) {
-      fetchBlog();
-    }
-  }, [id]);
-
-  const fetchBlog = () => {
+  const fetchBlog = useCallback(() => {
     axios.get(`http://localhost:5000/api/blogs/${id}`).then(response => {
       setBlog(response.data);
       setLoading(false);
@@ -23,7 +17,13 @@ const AddEditBlog = () => {
       console.error(error);
       setLoading(false);
     });
-  };
+  }, [id]);
+
+  useEffect(() => {
+    if (isEdit) {
+      fetchBlog();
+    }
+  }, [id, fetchBlog, isEdit]);
 
   if (loading) return <div style={{ textAlign: 'center', padding: '2rem' }}>Loading...</div>;
 
