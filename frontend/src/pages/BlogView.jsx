@@ -9,7 +9,7 @@ const BlogView = () => {
 
   const fetchBlog = useCallback(() => {
     axios
-      .get(`/api/blogs/${id}`)
+      .get(`http://localhost:5000/api/blogs/${id}`)
       .then((response) => {
         setBlog(response.data);
         setLoading(false);
@@ -27,7 +27,7 @@ const BlogView = () => {
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this blog?")) {
       axios
-        .delete(`/api/blogs/${id}`)
+        .delete(`http://localhost:5000/api/blogs/${id}`)
         .then(() => {
           window.location.href = "/blogs";
         })
@@ -48,59 +48,145 @@ const BlogView = () => {
     );
 
   return (
-    <div className="container" style={{ padding: "2rem" }}>
-      <h1 style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>
-        {blog.title}
-      </h1>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+        padding: "2rem 0",
+      }}
+    >
       <div
+        className="container"
         style={{
-          display: "flex",
-          alignItems: "center",
-          marginBottom: "1rem",
-          color: "#666",
+          maxWidth: "800px",
+          margin: "0 auto",
+          backgroundColor: "#fff",
+          borderRadius: "15px",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+          padding: "3rem",
+          position: "relative",
         }}
       >
-        <span style={{ fontWeight: "bold", marginRight: "0.5rem" }}>
-          By {blog.author}
-        </span>
-        <span>•</span>
-        <span style={{ marginLeft: "0.5rem" }}>
-          {new Date(blog.createdAt).toLocaleDateString()}
-        </span>
-      </div>
-      <div
-        style={{
-          fontSize: "1.1rem",
-          lineHeight: "1.8",
-          whiteSpace: "pre-wrap",
-          marginBottom: "2rem",
-        }}
-      >
-        {blog.content}
-      </div>
-      <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-        <Link to="/blogs" style={{ textDecoration: "none", color: "#007bff" }}>
-          ← Back to Blogs
-        </Link>
-        <Link
-          to={`/edit-blog/${blog._id}`}
-          style={{ textDecoration: "none", color: "#28a745" }}
-        >
-          Edit
-        </Link>
-        <button
-          onClick={handleDelete}
+        <h1
           style={{
-            backgroundColor: "#dc3545",
-            color: "white",
-            border: "none",
-            padding: "0.5rem 1rem",
-            borderRadius: "4px",
-            cursor: "pointer",
+            fontSize: "3rem",
+            marginBottom: "1rem",
+            color: "#333",
+            fontWeight: "bold",
+            lineHeight: "1.2",
           }}
         >
-          Delete
-        </button>
+          {blog.title}
+        </h1>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "2rem",
+            paddingBottom: "1rem",
+            borderBottom: "1px solid #e9ecef",
+            color: "#666",
+          }}
+        >
+          <span
+            style={{
+              fontWeight: "bold",
+              marginRight: "0.5rem",
+              fontSize: "1.1rem",
+            }}
+          >
+            By {blog.author}
+          </span>
+          <span>•</span>
+          <span
+            style={{
+              marginLeft: "0.5rem",
+              fontSize: "1rem",
+            }}
+          >
+            {new Date(blog.createdAt).toLocaleDateString()}
+          </span>
+        </div>
+        <div
+          style={{
+            fontSize: "1.2rem",
+            lineHeight: "1.8",
+            whiteSpace: "pre-wrap",
+            marginBottom: "3rem",
+            color: "#444",
+          }}
+        >
+          {blog.content}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+          }}
+        >
+          <Link
+            to="/blogs"
+            style={{
+              textDecoration: "none",
+              color: "#007bff",
+              fontWeight: "bold",
+              fontSize: "1.1rem",
+              padding: "0.75rem 1.5rem",
+              borderRadius: "25px",
+              backgroundColor: "#f8f9fa",
+              transition: "all 0.3s ease",
+              border: "1px solid #007bff",
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = "#007bff";
+              e.target.style.color = "#fff";
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = "#f8f9fa";
+              e.target.style.color = "#007bff";
+            }}
+          >
+            ← Back to Blogs
+          </Link>
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <Link
+              to={`/edit-blog/${blog._id}`}
+              style={{
+                textDecoration: "none",
+                color: "#fff",
+                backgroundColor: "#28a745",
+                padding: "0.75rem 1.5rem",
+                borderRadius: "25px",
+                fontWeight: "bold",
+                transition: "background-color 0.3s ease",
+              }}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#218838")}
+              onMouseOut={(e) => (e.target.style.backgroundColor = "#28a745")}
+            >
+              Edit
+            </Link>
+            <button
+              onClick={handleDelete}
+              style={{
+                backgroundColor: "#dc3545",
+                color: "white",
+                border: "none",
+                padding: "0.75rem 1.5rem",
+                borderRadius: "25px",
+                cursor: "pointer",
+                fontWeight: "bold",
+                transition: "background-color 0.3s ease",
+              }}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#c82333")}
+              onMouseOut={(e) => (e.target.style.backgroundColor = "#dc3545")}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ const BlogList = () => {
 
   const fetchBlogs = useCallback(() => {
     axios
-      .get("/api/blogs")
+      .get("http://localhost:5000/api/blogs")
       .then((response) => {
         setBlogs(response.data);
         setLoading(false);
@@ -26,7 +26,7 @@ const BlogList = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`/api/blogs/${id}`)
+      .delete(`http://localhost:5000/api/blogs/${id}`)
       .then(() => {
         setBlogs(blogs.filter((blog) => blog._id !== id));
       })

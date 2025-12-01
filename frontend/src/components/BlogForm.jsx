@@ -33,7 +33,7 @@ const BlogForm = ({ blog, isEdit }) => {
     }
     if (isEdit) {
       axios
-        .put(`/api/blogs/${blog._id}`, formData)
+        .put(`http://localhost:5000/api/blogs/${blog._id}`, formData)
         .then(() => {
           navigate("/blogs");
         })
@@ -43,7 +43,7 @@ const BlogForm = ({ blog, isEdit }) => {
         });
     } else {
       axios
-        .post("/api/blogs", formData)
+        .post("http://localhost:5000/api/blogs", formData)
         .then(() => {
           navigate("/blogs");
         })
